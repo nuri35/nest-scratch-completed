@@ -12,7 +12,7 @@ export class MessagesService {
   }
 
   findAll() {
-    return;
+    return this.messageRepo.findAll();
   }
 
   findAllexel() {
