@@ -5,11 +5,15 @@ import { UpdateMessageDto } from './dto/update-message.dto';
 @Injectable()
 export class MessagesService {
   create(createMessageDto: CreateMessageDto) {
-    return 'This action adds a new message';
+    return createMessageDto;
   }
 
   findAll() {
     return `This action returns all messages`;
+  }
+
+  findAllexel() {
+    return `This action returns all messages exel`;
   }
 
   findOne(id: number) {
