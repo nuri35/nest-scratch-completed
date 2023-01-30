@@ -31,5 +31,3 @@ export class MessagesService {
     return `This action removes a #${id} message`;
   }
 }
-
-//29.ders nest js course devam et en son dependency ler   messageRepo: MessagesRepository nasıl eklencek onu calısmıstın

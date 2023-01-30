@@ -1,6 +1,8 @@
 //uzun işlemler dosya okuma db veri iletişimi gibi durumlar
+import { Injectable } from '@nestjs/common';
 import { readFile, writeFile } from 'fs/promises';
 
+@Injectable()
 export class MessagesRepository {
   async findOne(id: string) {
     try {

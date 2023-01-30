@@ -16,7 +16,7 @@ import { UpdateMessageDto } from './dto/update-message.dto';
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
-  @Post()
+  @Post() // CreateMessageDto diye bir class'ı tip ataması yaptık. content: string imiş ama bir ise yaramaz sonra o dto'da class validator ile @IsString() dedik. yine işe yarmaz.  @IsString() bunun ıse yaraması ıcın app.module.ts de app.useGlobalPipes(new ValidationPipe({})); dedik. artık işe yarıyor
   async create(@Body() createMessageDto: CreateMessageDto) {
     return this.messagesService.create(createMessageDto);
   }
@@ -31,7 +31,7 @@ export class MessagesController {
     const messVal = await this.messagesService.findOne(id); //burda awaıt koyalım cunku if ile bir messVal degerını kontrol edıcez promise bekle bu uzun suren işlemın cevabını if 'de işlem yapıcaz dıyoruz
 
     if (!messVal) {
-      throw new NotFoundException();
+      throw new NotFoundException('Message not found');
     }
     return messVal;
   }
