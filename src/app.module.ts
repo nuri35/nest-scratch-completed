@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Report } from './modules/reports/entity/report.entity';
 import { User } from './modules/users/entity/user.entity';
 
+console.log(process.cwd());
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,8 +16,9 @@ import { User } from './modules/users/entity/user.entity';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database.sqlite',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'], // yada  ['database/entities/*{.js,.ts}'], boyle verebılrdık klasor olusturup ozaman onun path'ını verırdık
-      synchronize: true,
+      autoLoadEntities: true, // bunu true yapınca entity'leri otomatik yükler. ama biz bunu false yaparak entity'leri yüklemek için aşağıdaki gibi yaparız.
+      // entities: [process.cwd() + './src/modules/**/entity/*.{js,ts}'], // yada  ['database/entities/*{.js,.ts}'], boyle verebılrdık klasor olusturup ozaman onun path'ını verırdık
+      synchronize: true, // dev envrioment için true, production için false olmalıdır.
     }),
     MessagesModule,
     ReportsModule,
