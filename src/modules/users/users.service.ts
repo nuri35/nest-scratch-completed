@@ -19,7 +19,7 @@ export class UsersService {
   findOne(id: number) {
     //  where: { email: 'nurie487@gmail.com' } bunu burda yapmıcaz bız repodakı fonksıyonu cagırcaz o db ıslemı kendı ıcınde kendısı yyapacak unutma
     return this.repo.findOneBy({ id }); // burdada   throw new NotFoundException('User not found');  verdırebılrdık ama update fonskıyonu kullanıyor ya cakısmassın dıye controllerda kullan
-  }
+  } // burda User entıty bılgısı donuyor ama password bılgısıde donuyor gızlı olması lazım onu yapcaz. @Exclude() kullancaz entıty ksıımında
 
   async update(id: number, attrs: Partial<User>) {
     // burda entıty'dekınler olsun dıye tıp ataması yapmamızın sebebı guncellemek ıcın yolladıgı dto'Da entıy'Dekı datadan 1 tane bıle eksık  yolladıysa dto'da kızması ıcın typescriptın boyle yaptık.....
@@ -38,5 +38,3 @@ export class UsersService {
     return this.repo.delete(id);
   }
 }
-
-// ders 61 de kaldın yarın oglene kadar devam edersın
