@@ -11,9 +11,13 @@ export class UsersService {
     @InjectRepository(User) private readonly repo: Repository<User>, // <-- type orm'nın Repository kını kullandıgmız ıcın module gidip provider ı eklememıze gerek  yok' cunku kutuphaneınn o. onun yerıne en başına ınjectreposıtory kavramını koyuyoruz. typeorm nın kendı kutuphanesı koydugumuzda Repository dıyerek  this.repo.save(createUserDto); dıyebılıyoruz. orm metotlarını kullanabılıyoruz.  Repository<User> user tipini dıyerek burdakı db kaydetme vs ıslemlerınde user tablosu ıcın yapmasını soyluyoruz aslında. buna benzer bızde ornek yapmıstık. kenıdmız bır reposırty acmıstık. ama böyle yapılır db işlemlerı ıcın işte.
   ) {}
 
-  create(createUserDto: CreateUserDto) {
-    const user = this.repo.create(createUserDto); // <-- typeorm metotları (create, save, find, findOne, update, delete
+  create(email: string, password: string) {
+    const user = this.repo.create({ email, password }); // <-- typeorm metotları (create, save, find, findOne, update, delete
     return this.repo.save(user); // entity.relatedModel.save yanı user.relatedModel.save işlemnı burda degıl repo ıcınde cagırıdgımzı fonksıyon ıcınde yapıyor sanırsam.....
+  }
+
+  find(email: string) {
+    return this.repo.findBy({ email });
   }
 
   findOne(id: number) {
