@@ -8,7 +8,6 @@ import {
   Delete,
   NotFoundException,
   UseInterceptors,
-  ClassSerializerInterceptor,
   Session,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -18,10 +17,12 @@ import { Serialize } from 'src/interceptors/serialize.interceptopr';
 import { UserDto } from './dto/user.dto';
 import { AuthService } from './auth.service';
 import { User } from './entity/user.entity';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 @Serialize(UserDto) // ClassConstructor tip atadık {x:"vs",y:"blabla"}, string vs verdıgınde typescropt hata veriyor.
+@UseInterceptors(CurrentUserInterceptor) // bu interceptorı kullanmak ıcın bunu buraya yazmamız lazım ayrıca nest/common kutuphanesındekı UseInterceptors parametresınde kullanıyoruz onun ıcın oncesınde module ekledık
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
@@ -45,6 +46,7 @@ export class UsersController {
   @Post('/signout')
   async signout(@Session() session: any) {
     session.userId = null; // userId null cekersen cooki-session da key ile  set-cookie olarak degıstıryor token'ı ve clıenta gonderıyor.
+    return { message: 'Successfully signed out' };
   }
 
   @Post('signup')
