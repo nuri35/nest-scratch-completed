@@ -17,6 +17,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptopr';
 import { UserDto } from './dto/user.dto';
 import { AuthService } from './auth.service';
+import { User } from './entity/user.entity';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 @Serialize(UserDto) // ClassConstructor tip atadık {x:"vs",y:"blabla"}, string vs verdıgınde typescropt hata veriyor.
@@ -26,12 +28,23 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
-  @Get('/whoami') // gerçek projede gerek yok
-  async whoami(@Session() session: any) {
-    if (!session.userId) {
-      return null;
-    }
-    return this.usersService.findOne(session.userId);
+  // @Get('/whoami') // gerçek projede gerek yok
+  // async whoami(@Session() session: any) {
+  //   if (!session.userId) {
+  //     return null;
+  //   }
+  //   return this.usersService.findOne(session.userId);
+  // }
+
+  @Get('/whoami')
+  async whoami(@CurrentUser() user: User) {
+    // bu CurrentUser olayını permıssın ıcınde kullancaz
+    return user;
+  }
+
+  @Post('/signout')
+  async signout(@Session() session: any) {
+    session.userId = null; // userId null cekersen cooki-session da key ile  set-cookie olarak degıstıryor token'ı ve clıenta gonderıyor.
   }
 
   @Post('signup')

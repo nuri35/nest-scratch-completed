@@ -21,6 +21,9 @@ export class UsersService {
   }
 
   findOne(id: number) {
+    if (!id) {
+      return null;
+    }
     //  where: { email: 'nurie487@gmail.com' } bunu burda yapmıcaz bız repodakı fonksıyonu cagırcaz o db ıslemı kendı ıcınde kendısı yyapacak unutma
     return this.repo.findOneBy({ id }); // burdada   throw new NotFoundException('User not found');  verdırebılrdık ama update fonskıyonu kullanıyor ya cakısmassın dıye controllerda kullan
   } // burda User entıty bılgısı donuyor ama password bılgısıde donuyor gızlı olması lazım onu yapcaz. @Exclude() kullancaz entıty ksıımında
