@@ -1,9 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+const cookieSession = require('cookie-session');
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(
+    cookieSession({
+      keys: ['asdfasdf'], // The  general string is going to be used to encrypt the information that is stored inside the cookie.
+      // So the Keys array that we just put in is being used for this encryption step. sıfrelenen sessıon token ıcersıınde sadece userId tut kesınlıkle onuda sıgnupda vs ypabılrsın
+    }),
+  );
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, //eğer true olursa dto'da olmayan bır propertıes' verdıgımızde key value olarak ıste  backend'de body'den aldıgımızda onu o dto'Da tanımlanmayanı sıler. false olursa dto'DA olmayan ama clıent'dan bıze gelenıde alırız.

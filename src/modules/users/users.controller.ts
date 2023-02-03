@@ -26,9 +26,26 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
+  @Get('/whoami') // gerçek projede gerek yok
+  async whoami(@Session() session: any) {
+    if (!session.userId) {
+      return null;
+    }
+    return this.usersService.findOne(session.userId);
+  }
+
   @Post('signup')
-  createUserSign(@Body() createUserDto: CreateUserDto) {
-    return this.authService.signup(createUserDto.email, createUserDto.password);
+  async createUserSign(
+    @Body() createUserDto: CreateUserDto,
+    @Session() session: any,
+  ) {
+    const user = await this.authService.signup(
+      createUserDto.email,
+      createUserDto.password,
+    );
+    session.userId = user.id; // sessıon objesıne userId koyduk bunu passport js ıle yaptıgımızda onun yapıldıgı yer var zaten sımdılık gostermek adına kendımız koyduk router'da
+
+    return user;
   }
 
   @Post('/signin')
