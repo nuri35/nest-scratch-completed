@@ -18,7 +18,7 @@ export class MessagesController {
 
   @Post() // CreateMessageDto diye bir class'ı tip ataması yaptık. content: string imiş ama bir ise yaramaz sonra o dto'da class validator ile @IsString() dedik. yine işe yarmaz.  @IsString() bunun ıse yaraması ıcın app.module.ts de app.useGlobalPipes(new ValidationPipe({})); dedik. artık işe yarıyor
   async create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messagesService.create(createMessageDto);
+    console.log(createMessageDto);
   }
 
   @Get()

@@ -7,8 +7,8 @@ import {
   Param,
   Delete,
   NotFoundException,
-  UseInterceptors,
   Session,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,12 +17,12 @@ import { Serialize } from 'src/interceptors/serialize.interceptopr';
 import { UserDto } from './dto/user.dto';
 import { AuthService } from './auth.service';
 import { User } from './entity/user.entity';
-import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 @Serialize(UserDto) // ClassConstructor tip atadık {x:"vs",y:"blabla"}, string vs verdıgınde typescropt hata veriyor.
-@UseInterceptors(CurrentUserInterceptor) // bu interceptorı kullanmak ıcın bunu buraya yazmamız lazım ayrıca nest/common kutuphanesındekı UseInterceptors parametresınde kullanıyoruz onun ıcın oncesınde module ekledık
+// @UseInterceptors(CurrentUserInterceptor) // bu interceptorı kullanmak ıcın bunu buraya yazmamız lazım ayrıca nest/common kutuphanesındekı UseInterceptors parametresınde kullanıyoruz onun ıcın oncesınde module ekledık. ama bunu user ıcın her controller'a ekleyemeyız. onun ıcın global yapmalyız. bunu user.module da yapacagız.
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
@@ -38,6 +38,7 @@ export class UsersController {
   // }
 
   @Get('/whoami')
+  @UseGuards(AuthGuard) //  ıstek atarken yukardan aşagı daha okurken servıce ıcerısıne erişim saglanmıyor eger user yok ise login olmadıysa yani.
   async whoami(@CurrentUser() user: User) {
     // bu CurrentUser olayını permıssın ıcınde kullancaz
     return user;

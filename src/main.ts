@@ -11,6 +11,10 @@ async function bootstrap() {
       // So the Keys array that we just put in is being used for this encryption step. sıfrelenen sessıon token ıcersıınde sadece userId tut kesınlıkle onuda sıgnupda vs ypabılrsın
     }),
   );
+  // console.log(process.env.NODE_ENV); nest js otomatık vermıyor node env package.jsonda bız crossenv kutuphanesı sayesınde eklıyoruz.
+
+  console.log(process.env.DB_NAME);
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, //eğer true olursa dto'da olmayan bır propertıes' verdıgımızde key value olarak ıste  backend'de body'den aldıgımızda onu o dto'Da tanımlanmayanı sıler. false olursa dto'DA olmayan ama clıent'dan bıze gelenıde alırız.

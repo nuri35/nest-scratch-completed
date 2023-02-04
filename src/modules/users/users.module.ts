@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { UsersController } from './users.controller';
 import { User } from './entity/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,7 +10,16 @@ import { CurrentUserInterceptor } from './interceptors/current-user.interceptor'
 @Module({
   imports: [TypeOrmModule.forFeature([User])], // hangı entity'lerin kullanılacağını belirtiyoruz bu modul ıcın
   controllers: [UsersController],
-  providers: [UsersService, AuthService, CurrentUserInterceptor],
+  // write here globally used interceptors
+
+  providers: [
+    UsersService,
+    AuthService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CurrentUserInterceptor,
+    },
+  ],
 })
 export class UsersModule {}
 
