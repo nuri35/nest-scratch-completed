@@ -1,4 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Report } from './entity/report.entity';
+import { CreateReportDto } from './dto/create-report.dto';
 
 @Injectable()
-export class ReportsService {}
+export class ReportsService {
+  constructor(
+    @InjectRepository(Report) private readonly repo: Repository<Report>,
+  ) {}
+
+  create(reportDto: CreateReportDto) {
+    const report = this.repo.create(reportDto as unknown as Report);
+
+    return this.repo.save(report);
+  }
+}
