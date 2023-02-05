@@ -29,4 +29,5 @@ export class Report {
 
   @Column()
   mileage: number;
+  userId: any;
 }

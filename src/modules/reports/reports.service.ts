@@ -19,6 +19,6 @@ export class ReportsService {
   }
 }
 
-// this.repo  <--  Report this is note for me bunu bırde ılgılı get ıstegınde yap kısı logın olmus o kısnın userId sı ıle ılgılı reportları getırebılsın
+// this.repo  <--  Report this is note for me to remember
 //   .createQueryBuilder()
 //   .relation(Report, 'user')
