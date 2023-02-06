@@ -18,7 +18,6 @@ import { Serialize } from 'src/interceptors/serialize.interceptopr';
 import { ApproveReportDto } from './dto/approve-report.dto';
 import { AdminGuard } from 'src/guards/admin.guard';
 import { GetEstimateDto } from './dto/get-estimate.dto';
-import { UserDto } from '../users/dto/user.dto';
 
 @Controller('reports')
 export class ReportsController {

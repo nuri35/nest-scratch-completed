@@ -21,7 +21,6 @@ import { APP_PIPE } from '@nestjs/core';
           database: configService.get<string>('DB_NAME'),
           autoLoadEntities: true, // bunu true yapınca entity'leri otomatik yükler. ama biz bunu false yaparak entity'leri yüklemek için aşağıdaki gibi yaparız.
           // entities: [process.cwd() + './src/modules/**/entity/*.{js,ts}'], // yada  ['database/entities/*{.js,.ts}'], boyle verebılrdık klasor olusturup ozaman onun path'ını verırdık
-          synchronize: true, //  dev envrioment için true, production için false olmalıdır.
         };
       },
     }),
@@ -39,14 +38,17 @@ import { APP_PIPE } from '@nestjs/core';
   ],
 })
 export class AppModule {
+  constructor(private configService: ConfigService) {}
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
         cookieSession({
-          keys: ['asdfasfd'], // The  general string is going to be used to encrypt the information that is stored inside the cookie.
+          keys: [this.configService.get<string>('COOKIE_KEY')], // The  general string is going to be used to encrypt the information that is stored inside the cookie.
           // So the Keys array that we just put in is being used for this encryption step. sıfrelenen sessıon token ıcersıınde sadece userId tut kesınlıkle onuda sıgnupda vs ypabılrsın
         }),
       )
       .forRoutes('*');
   }
 }
+
+// saat 7.30da devam et
