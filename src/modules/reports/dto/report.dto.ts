@@ -13,6 +13,8 @@ export class ReportDto {
   @Expose()
   lat: number;
   @Expose()
+  approved: boolean;
+  @Expose()
   make: string;
   @Expose()
   model: string;

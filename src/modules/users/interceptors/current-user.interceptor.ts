@@ -20,7 +20,7 @@ export class CurrentUserInterceptor implements NestInterceptor {
     } else {
       request.currentUser = { user: null };
     }
-
+    console.log(request.currentUser, 'from interceptor');
     return handler.handle();
   }
 }

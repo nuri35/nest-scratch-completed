@@ -14,6 +14,8 @@ import { CurrentUser } from '../users/decorators/current-user.decorator';
 import { User } from '../users/entity/user.entity';
 import { ReportDto } from './dto/report.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptopr';
+import { ApproveReportDto } from './dto/approve-report.dto';
+import { AdminGuard } from 'src/guards/admin.guard';
 
 @Controller('reports')
 export class ReportsController {
@@ -31,13 +33,14 @@ export class ReportsController {
     return 'This action returns all reports';
   }
 
-  @Get(':id')
+  @Get(':id') // ilgili user'ın report'unu getrebılsın
   findOne(@Param('id') id: string) {
     return `This action returns a #${id} report`;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string) {
-    return `This action updates a #${id} report`;
+  @UseGuards(AdminGuard)
+  approvedReport(@Param('id') id: number, @Body() body: ApproveReportDto) {
+    return this.reportsService.changeApproval(id, body.approved);
   }
 }
