@@ -6,6 +6,7 @@ import {
   Patch,
   Post,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
 import { ReportsService } from './reports.service';
@@ -16,6 +17,7 @@ import { ReportDto } from './dto/report.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptopr';
 import { ApproveReportDto } from './dto/approve-report.dto';
 import { AdminGuard } from 'src/guards/admin.guard';
+import { GetEstimateDto } from './dto/get-estimate.dto';
 
 @Controller('reports')
 export class ReportsController {
@@ -29,8 +31,8 @@ export class ReportsController {
   }
 
   @Get()
-  findAll() {
-    return 'This action returns all reports';
+  getEstimate(@Query() query: GetEstimateDto) {
+    return this.reportsService.getEstimate(query);
   }
 
   @Get(':id') // ilgili user'ın report'unu getrebılsın
