@@ -13,6 +13,7 @@ export class UsersService {
 
   create(email: string, password: string) {
     const user = this.repo.create({ email, password }); // <-- typeorm metotları (create, save, find, findOne, update, delete
+    user.admin = false;
     return this.repo.save(user); // entity.relatedModel.save yanı user.relatedModel.save işlemnı burda degıl repo ıcınde cagırıdgımzı fonksıyon ıcınde yapıyor sanırsam.....
   }
 

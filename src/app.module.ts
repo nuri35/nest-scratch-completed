@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MessagesModule } from 'src/modules/messages/messages.module';
 import { ReportsModule } from './modules/reports/reports.module';
 import { UsersModule } from './modules/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Report } from './modules/reports/entity/report.entity';
-import { User } from './modules/users/entity/user.entity';
+const cookieSession = require('cookie-session');
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -28,6 +28,25 @@ import { User } from './modules/users/entity/user.entity';
     MessagesModule,
     ReportsModule,
     UsersModule,
-  ], // burda providers ve controller yok cunku app.controllers ve app.services'ı yarattıydı sıldık onları gerek yok onlara
+  ],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        whitelist: true, //eğer true olursa dto'da olmayan bır propertıes' verdıgımızde key value olarak ıste  backend'de body'den aldıgımızda onu o dto'Da tanımlanmayanı sıler. false olursa dto'DA olmayan ama clıent'dan bıze gelenıde alırız.
+      }), // DTO'larımızı doğrulamak için kullanıyoruz ordakı @IsString() gibi şeylerin geçerli olması için aslında
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(
+        cookieSession({
+          keys: ['asdfasfd'], // The  general string is going to be used to encrypt the information that is stored inside the cookie.
+          // So the Keys array that we just put in is being used for this encryption step. sıfrelenen sessıon token ıcersıınde sadece userId tut kesınlıkle onuda sıgnupda vs ypabılrsın
+        }),
+      )
+      .forRoutes('*');
+  }
+}

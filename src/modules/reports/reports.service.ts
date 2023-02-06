@@ -21,7 +21,7 @@ export class ReportsService {
 
   async changeApproval(id: number, approved: boolean) {
     const report = await this.repo.findOneBy({ id, approved: !approved });
-    console.log(report);
+
     if (!report) {
       throw new NotFoundException('Report not found');
     }
@@ -30,7 +30,7 @@ export class ReportsService {
   }
 
   async getEstimate({ make, model, lng, lat, year, mileage }: GetEstimateDto) {
-    return this.repo
+    const value = await this.repo
       .createQueryBuilder()
       .select('AVG(price)', 'price')
       .where('make = :make', { make })
@@ -41,8 +41,15 @@ export class ReportsService {
       .andWhere('approved IS TRUE')
       .orderBy('ABS(mileage - :mileage)', 'DESC')
       .setParameters({ mileage })
-      .limit(3)
       .getRawOne();
+    return value;
+  }
+
+  async getRelatedByUserIdReports() {
+    const reports = await this.repo.find({
+      relations: ['user'],
+    });
+    return reports;
   }
 }
 

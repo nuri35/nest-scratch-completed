@@ -18,6 +18,7 @@ import { Serialize } from 'src/interceptors/serialize.interceptopr';
 import { ApproveReportDto } from './dto/approve-report.dto';
 import { AdminGuard } from 'src/guards/admin.guard';
 import { GetEstimateDto } from './dto/get-estimate.dto';
+import { UserDto } from '../users/dto/user.dto';
 
 @Controller('reports')
 export class ReportsController {
@@ -31,13 +32,15 @@ export class ReportsController {
   }
 
   @Get()
-  getEstimate(@Query() query: GetEstimateDto) {
-    return this.reportsService.getEstimate(query);
+  async getEstimate(@Query() query: GetEstimateDto) {
+    const estimateValue = await this.reportsService.getEstimate(query);
+    return estimateValue;
   }
 
-  @Get(':id') // ilgili user'ın report'unu getrebılsın
-  findOne(@Param('id') id: string) {
-    return `This action returns a #${id} report`;
+  @Get('/all')
+  @Serialize(ReportDto)
+  findOne() {
+    return this.reportsService.getRelatedByUserIdReports();
   }
 
   @Patch(':id')

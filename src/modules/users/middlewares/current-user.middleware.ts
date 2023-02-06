@@ -11,6 +11,7 @@ declare global {
   }
 }
 
+@Injectable()
 export class CurrentUserMiddleware implements NestMiddleware {
   constructor(private usersService: UsersService) {}
 
