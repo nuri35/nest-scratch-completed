@@ -1,4 +1,4 @@
-import { Report } from 'src/modules/reports/entity/report.entity';
+import { Report } from '../reports/report.entity';
 import {
   Entity,
   Column,
@@ -17,7 +17,7 @@ export class User {
   @Column()
   email: string;
 
-  @OneToMany(() => Report, (report) => report.userId)
+  @OneToMany(() => Report, (report) => report.user)
   reports: Report[];
 
   @Column({ default: true })

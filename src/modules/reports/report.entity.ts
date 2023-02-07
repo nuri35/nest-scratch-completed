@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { User } from 'src/modules/users/entity/user.entity';
+import { User } from '../users/user.entity';
 
 @Entity()
 export class Report {
@@ -32,5 +32,4 @@ export class Report {
 
   @Column()
   mileage: number;
-  userId: any;
 }

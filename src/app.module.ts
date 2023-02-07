@@ -3,10 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MessagesModule } from 'src/modules/messages/messages.module';
 import { ReportsModule } from './modules/reports/reports.module';
 import { UsersModule } from './modules/users/users.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 const cookieSession = require('cookie-session');
 import { APP_PIPE } from '@nestjs/core';
-const dbConfig = require('../ormconfig');
+import { TypeOrmConfigService } from './config/typeorm.config';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ const dbConfig = require('../ormconfig');
       envFilePath: `.env.${process.env.NODE_ENV}`, // default olarak .env dosyasını okur eger envFilePath'ı yazmazsak. ama biz bunu değiştirebiliriz. envFilePath belırterek  örneğin .env.development yazıyoruz. böylece .env.development dosyasını okur.
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: () => dbConfig,
+      useClass: TypeOrmConfigService,
     }),
     // TypeOrmModule.forRootAsync({
     //   inject: [ConfigService], //configservice'yi ejjecte ediyoruz.  seçtiğimiz dosyadan tüm yapılandırma bilgilerimize sahip olmamıza yarayan configServiceyi gitmesini ve bunu kullanmasını sağlıyoruz buluarak.
