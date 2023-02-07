@@ -62,7 +62,7 @@ $ npm run test:cov
 ```bash
 # for generate migration file
 $  npm run typeorm migration:generate src/migrations/initial-schema
-
+$  npm run typeorm migration:run
 ```
 
 ## Support
