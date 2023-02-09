@@ -61,7 +61,7 @@ $ npm run test:cov
 ## Migration
 ```bash
 # for generate migration file
-$  npm run typeorm migration:generate src/migrations/initial-schema
+$  npm run typeorm:migration:generate
 $  npm run typeorm migration:run
 ```
 
